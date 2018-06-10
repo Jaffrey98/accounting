@@ -49,5 +49,7 @@ module.exports = {
         PurchaseReceipt: require('./doctype/PurchaseReceipt/PurchaseReceipt.js'),
         PurchaseReceiptItem: require('./doctype/PurchaseReceiptItem/PurchaseReceiptItem.js'),
         PurchaseReceiptSettings: require('./doctype/PurchaseReceiptSettings/PurchaseReceiptSettings.js'),
+
+        Uom: require('./doctype/Uom/Uom.js'),
     }
 }
