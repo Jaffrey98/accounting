@@ -5,50 +5,63 @@ module.exports = {
    // documentClass:EventDocument,
     naming: "random",
     fields: [{
-            fieldname: "itemname",
-            label: "Item Name",
+            fieldname: "itemnameKg",
+            label: "Item Name(Kg)",
             fieldtype: "Data"
         },
         {
-            fieldname: "uom",
+            fieldname: "uomKg",
             label: "UOM (Unit of Measure)",
             fieldtype: "Read Only"
-            // fieldtype: "Select",
-            // default: "No",
-            // options: [
-            //     "No",
-            //     "Liter",
-            //     "Kg",
-            //     "Gram",
-            //     "Hour",
-            //     "Day"
-            // ]
+           
+        },
+        {
+            fieldname: "itemnameL",
+            label: "Item Name(Liter)",
+            fieldtype: "Data"
+        },
+        {
+            fieldname: "uomL",
+            label: "UOM (Unit of Measure)",
+            fieldtype: "Read Only"
+           
+        },
+        {
+            fieldname: "itemnameNo",
+            label: "Item Name(Number)",
+            fieldtype: "Data"
+        },
+        {
+            fieldname: "uomNo",
+            label: "UOM (Unit of Measure)",
+            fieldtype: "Read Only"
+           
         }
     ],
     keywordFields: [],
     isSingle: 0,
     listSettings: {
         getFields(list) {
-            // var input=list.itemname;
-            // console.log(input);
-            return ['name', 'itemname', 'uom'];
+          
+            return ['name', 'itemnameKg', 'uomKg','itemnameL','uomL','itemnameNo','uomNo'];
         },
         getRowHTML(list, data) {
-            var input=data.itemname;
-            switch(input)
-            { 
-            case "milk": data.uom="Liter";
-            break;    
-            case "water": data.uom="Liter";
-            break;
-            case "vegetable": data.uom="Kg";
-            break;
-            case "chips" :data.uom="No";
-            break;
-            default : data.uom="null";
-        }
-        //console.log(data.itemname);
-            return `<div class="col-11">${data.itemname} (${data.uom})</div>`;
+            var in1=data.itemnameKg;
+            var in2=data.itemnameNo;
+            var in3=data.itemnameL;
+            if(in1!=null && in2==null && in3==null)
+            {
+               // console.log(in1);
+            return `<div class="col-11">${data.itemnameKg} (${"Kg"})</div>`;
+            }
+            if(in2!=null &&in1==null &&in3==null)
+            {
+            return `<div class="col-11">${data.itemnameNo} (${"No"})</div>`;
+            }
+            if(in3!=null &&in1==null &&in2==null)
+            {
+            return `<div class="col-11">${data.itemnameL} (${"Liter"})</div>`;
+            }
 
         }
     },
