@@ -21,15 +21,8 @@ module.exports = {
         {
             fieldname: "unit",
             label: "Unit",
-            fieldtype: "Select",
-            default: "No",
-            options: [
-                "No",
-                "Kg",
-                "Gram",
-                "Hour",
-                "Day"
-            ]
+            fieldtype: "Link",
+            target: "Uom"
         },
         {
             fieldname: "incomeAccount",

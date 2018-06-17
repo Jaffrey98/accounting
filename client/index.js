@@ -10,7 +10,7 @@ module.exports = {
 
         registerReportRoutes();
 
-        frappe.desk.menu.addItem('Uom', '#list/Uom');
+        frappe.desk.menu.addItem('UOM', '#list/Uom');
     	frappe.desk.menu.addItem('Warehouse', '#tree/Warehouse');
         frappe.desk.menu.addItem('ToDo', '#list/ToDo');
         frappe.desk.menu.addItem('Chart of Accounts', '#tree/Account');
