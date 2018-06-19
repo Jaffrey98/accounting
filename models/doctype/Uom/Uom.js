@@ -1,10 +1,17 @@
 module.exports = {
     name: "Uom",
     doctype: "DocType",
-    fields: [{
+    fields: [
+        {
             fieldname: "name",
-            label: "UOM (Unit of Measure)",
+            label: "Stock UOM",
             fieldtype: "Data"
+        },
+        {
+            fieldname: "uomConversion",
+            label: "UOM conversion table",
+            fieldtype: "Table",
+            childtype: "UomConversionTable"
         }
     ],
     keywordFields: ["name"],
