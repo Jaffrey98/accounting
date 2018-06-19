@@ -5,7 +5,8 @@ module.exports = {
         {
             fieldname: "name",
             label: "Stock UOM",
-            fieldtype: "Data"
+            fieldtype: "Data",
+            required: 1
         },
         {
             fieldname: "uomConversion",
