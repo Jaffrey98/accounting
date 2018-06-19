@@ -12,6 +12,7 @@ module.exports = {
 
         frappe.desk.menu.addItem('UOM', '#list/Uom');
     	frappe.desk.menu.addItem('Warehouse', '#tree/Warehouse');
+    	frappe.desk.menu.addItem('Stock Entry', '#list/StockEntry');
         frappe.desk.menu.addItem('ToDo', '#list/ToDo');
         frappe.desk.menu.addItem('Chart of Accounts', '#tree/Account');
         frappe.desk.menu.addItem('Items', '#list/Item');
