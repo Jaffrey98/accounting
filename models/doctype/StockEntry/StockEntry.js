@@ -2,6 +2,7 @@ module.exports = {
     name: "StockEntry",
     label: "Stock Entry",
     doctype: "DocType",
+    documenClass: require("./StockEntryDocument.js"),
     naming: "autoincrement",
     pageSettings: {
         hideTitle: true
@@ -30,12 +31,12 @@ module.exports = {
             label: "Target Warehouse",
             fieldtype: "Link",
             target: "Warehouse",
-            // getFilters: (query, control) => {
-            //     return {
-            //         keywords: ["like", query],
-            //         name: ["!=", control.doc.sourceWarehouse]
-            //     }
-            // }
+            getFilters: (query, control) => {
+                return {
+                    keywords: ["like", query],
+                    name: ["!=", control.doc.sourceWarehouse]
+                }
+            }
         },
         {
             fieldname: "itemStockEntry",
@@ -46,7 +47,9 @@ module.exports = {
     ],
     events: {
         validate: (doc) => {
-            // if (doc.sourceWarehouse === doc.targetWarehouse){
+            // console.log(doc);
+            // console.log(this.sourceWarehouse);
+            // if (this.sourceWarehouse === this.targetWarehouse){
             //     throw frappe.errors.ValidationError(frappe._("Source and target warehouse cannot be the same))"));
             // }
             // throw frappe.errors.ValidationError(frappe._("Enter a source or a target Warehouse (or both(if they exist))"));

@@ -9,13 +9,11 @@ module.exports = {
             label: "Item Name",
             fieldtype: "Link",
             target: "Item",
-            required: 1
         },
         {
             fieldname: "quantity",
             label: "Quantity",
             fieldtype: "Int",
-            required: 1
         }
     ],
 }

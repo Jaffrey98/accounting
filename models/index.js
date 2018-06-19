@@ -51,7 +51,7 @@ module.exports = {
         PurchaseReceiptSettings: require('./doctype/PurchaseReceiptSettings/PurchaseReceiptSettings.js'),
 
     	Uom: require('./doctype/Uom/Uom.js'),
-    	UomConversionTable: require('./doctype/Uom/UomConversionTable.js'),
+    	ItemUomTable: require('./doctype/Item/ItemUomTable.js'),
     	Warehouse: require('./doctype/Warehouse/Warehouse.js'),
     	StockEntry: require('./doctype/StockEntry/StockEntry.js'),
     	StockEntryItemTable: require('./doctype/StockEntry/StockEntryItemTable.js'),

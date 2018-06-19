@@ -1,12 +1,13 @@
 module.exports = {
-    name: "UomConversionTable",
+    name: "ItemUomTable",
     doctype: "DocType",
     isChild: 1,
     fields: [
         {
             fieldname: "name",
             label: "UOM",
-            fieldtype: "Data"
+            fieldtype: "Link",
+            target: "Uom"
         },
         {
             fieldname: "conversionFactor",

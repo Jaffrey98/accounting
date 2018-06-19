@@ -20,9 +20,15 @@ module.exports = {
         },
         {
             fieldname: "unit",
-            label: "Unit",
+            label: "Stock Unit",
             fieldtype: "Link",
             target: "Uom"
+        },
+        {
+            fieldname: "uomConversion",
+            label: "UOM conversion table",
+            fieldtype: "Table",
+            childtype: "ItemUomTable"
         },
         {
             fieldname: "incomeAccount",
@@ -58,6 +64,8 @@ module.exports = {
         },
 
         // section 2
+        { fields: [ "uomConversion" ] },
+        
         { fields: [ "description" ] },
 
         // section 3

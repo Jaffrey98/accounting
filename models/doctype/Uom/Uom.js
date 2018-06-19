@@ -7,12 +7,6 @@ module.exports = {
             label: "Stock UOM",
             fieldtype: "Data",
             required: 1
-        },
-        {
-            fieldname: "uomConversion",
-            label: "UOM conversion table",
-            fieldtype: "Table",
-            childtype: "UomConversionTable"
         }
     ],
     keywordFields: ["name"],
