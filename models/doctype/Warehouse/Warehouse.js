@@ -37,13 +37,31 @@ module.exports = {
 		getRowHTML(list, data) {
 			var details;
 			if (data.isGroup && data.parentWarehouse) {
-				details = `&nbsp; ( type = group ) &emsp;( hasParent ➤ ${data.parentWarehouse} )`;
+				details = `
+					<div class='row'>
+						<div class="col-3">${data.name} </div>
+						<div class="col-3">type = group</div>
+						<div class="col-5">hasParent ➤ ${data.parentWarehouse}</div>
+					</div>	
+				`;
 			}else if(data.isGroup) {
-				details = `&nbsp; ( type = group ) &emsp;( noParent  )`
+				details = `
+				<div class='row'>
+					<div class="col-3">${data.name} </div>
+					<div class="col-3">type = group</div>
+					<div class="col-5">noParent</div>
+				</div>
+				`;
 			}else {
-				details = `&nbsp; ( type = child ) &emsp;( hasParent ➤ ${data.parentWarehouse} )`;
+				details = `
+				<div class='row'>
+					<div class="col-3 ">${data.name} </div>
+					<div class="col-3">type = child</div>
+					<div class="col-5">hasParent ➤ ${data.parentWarehouse}</div>
+				</div>
+				`;
 			}
-			return `<div class="col-11">${data.name} ${details} </div>`;
+			return `<div class="col-11">${details}</div>`;
 		}
 	},
 	

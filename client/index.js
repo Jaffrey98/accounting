@@ -10,12 +10,12 @@ module.exports = {
 
         registerReportRoutes();
 
-        frappe.desk.menu.addItem('UOM', '#list/Uom');
-    	frappe.desk.menu.addItem('Warehouse', '#tree/Warehouse');
-    	frappe.desk.menu.addItem('Stock Entry', '#list/StockEntry');
         frappe.desk.menu.addItem('ToDo', '#list/ToDo');
         frappe.desk.menu.addItem('Chart of Accounts', '#tree/Account');
+        frappe.desk.menu.addItem('UOM', '#list/Uom');
         frappe.desk.menu.addItem('Items', '#list/Item');
+    	frappe.desk.menu.addItem('Warehouse', '#tree/Warehouse');
+    	frappe.desk.menu.addItem('Stock Entry', '#list/StockEntry');
         frappe.desk.menu.addItem('Customers', '#list/Customer');
         frappe.desk.menu.addItem('Quotation', '#list/Quotation');
         frappe.desk.menu.addItem('Sales Order', '#list/SalesOrder');

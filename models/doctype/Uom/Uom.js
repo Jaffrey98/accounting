@@ -4,7 +4,7 @@ module.exports = {
     fields: [
         {
             fieldname: "name",
-            label: "Stock UOM",
+            label: "UOM (Unit of Measure)",
             fieldtype: "Data",
             required: 1
         }
