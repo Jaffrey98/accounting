@@ -8,12 +8,12 @@ module.exports = {
             fieldname: "itemname",
             label: "Item Name",
             fieldtype: "Link",
-            target: "Item",
+            target: "Item"
         },
         {
             fieldname: "quantity",
             label: "Quantity",
-            fieldtype: "Int",
+            fieldtype: "Int"
         }
     ],
 }

@@ -36,6 +36,16 @@ module.exports = {
 		},
 		getRowHTML(list, data) {
 			var details;
+			// if(data.isGroup){
+			// 	console.log("hi");
+			// 	data.isGroup="yes";
+
+			// }
+			// if(data.isGroup== null)
+			// {
+			// 	console.log("hi4");
+			// 	data.isGroup="No";
+			// }
 			if (data.isGroup && data.parentWarehouse) {
 				details = `
 					<div class='row'>
@@ -64,5 +74,14 @@ module.exports = {
 			return `<div class="col-11">${details}</div>`;
 		}
 	},
-	
+	layout: [
+        // section 1
+        {
+            columns: [
+                { fields: [ "name", "parentWarehouse","isGroup" ] }
+                //{ fields: [ "isGroup" ] }
+            ]
+        }
+
+    ]
 }

@@ -65,5 +65,19 @@ module.exports = {
             return `<div class="col-11">${data.date} (${data.sourceWarehouse} ➤ ${data.targetWarehouse})</div>`;
         }
     },
+     layout: [
+        // section 1
+        {
+            columns: [
+                { fields: [ "itemStockEntry", "itemStockEntry" ] },
+                { fields: [ "sourceWarehouse" ] }
+            ]
+        }
+
+        // section 2
+      //  { fields: [ "sourceWarehouse" ] }
+
+        
+    ]
 
 }
