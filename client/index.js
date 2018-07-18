@@ -38,6 +38,7 @@ module.exports = {
         frappe.desk.menu.addItem('Purchase Register', '#report/purchase-register');
         frappe.desk.menu.addItem('Accounts Receivable', '#report/accounts-receivable');
         frappe.desk.menu.addItem('Accounts Payable', '#report/accounts-payable');
+        frappe.desk.menu.addItem('Stock Ledger', '#report/stock-ledger');
 
         frappe.router.default = '#tree/Account';
 
