@@ -68,13 +68,13 @@ module.exports = {
         
         { fields: [ "description" ] },
 
-        // section 3
-        {
-            title: "Accounting",
-            columns: [
-                { fields: [ "incomeAccount", "expenseAccount" ] },
-                { fields: [ "tax" ] }
-            ]
-        }
-    ]
-}
+    // section 3
+    {
+      title: 'Accounting',
+      columns: [
+        { fields: ['incomeAccount', 'expenseAccount'] },
+        { fields: ['tax'] }
+      ]
+    }
+  ]
+};

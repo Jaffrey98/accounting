@@ -10,6 +10,7 @@ module.exports = {
         PaymentSettings: require('./doctype/PaymentSettings/PaymentSettings.js'),
 
         Item: require('./doctype/Item/Item.js'),
+    	ItemUomTable: require('./doctype/Item/ItemUomTable.js'),
 
         Invoice: require('./doctype/Invoice/Invoice.js'),
         InvoiceItem: require('./doctype/InvoiceItem/InvoiceItem.js'),
@@ -50,9 +51,13 @@ module.exports = {
         PurchaseReceiptItem: require('./doctype/PurchaseReceiptItem/PurchaseReceiptItem.js'),
         PurchaseReceiptSettings: require('./doctype/PurchaseReceiptSettings/PurchaseReceiptSettings.js'),
 
+        Event: require('./doctype/Event/Event'),
+        EventSchedule: require('./doctype/EventSchedule/EventSchedule'),
+        EventSettings: require('./doctype/EventSettings/EventSettings'),
+
     	Uom: require('./doctype/Uom/Uom.js'),
-    	ItemUomTable: require('./doctype/Item/ItemUomTable.js'),
-    	Warehouse: require('./doctype/Warehouse/Warehouse.js'),
+        Warehouse: require('./doctype/Warehouse/Warehouse.js'),
+        
     	StockEntry: require('./doctype/StockEntry/StockEntry.js'),
     	StockEntryItemTable: require('./doctype/StockEntry/StockEntryItemTable.js'),
     }
