@@ -64,17 +64,27 @@ module.exports = {
         },
 
         // section 2
-        { fields: [ "uomConversion" ] },
-        
-        { fields: [ "description" ] },
-
-    // section 3
-    {
-      title: 'Accounting',
-      columns: [
-        { fields: ['incomeAccount', 'expenseAccount'] },
-        { fields: ['tax'] }
-      ]
-    }
-  ]
+        {
+            columns: [
+                {
+                    fields: ["uomConversion"]
+                }
+            ],
+        },
+        // section 3
+        {
+            columns: [
+                { fields: ['incomeAccount', 'expenseAccount'] },
+                { fields: ['tax'] }
+            ]
+        },
+        // section 4
+        {
+            columns: [
+                {
+                    fields: ["description"]
+                }
+            ],
+        },
+    ]
 };

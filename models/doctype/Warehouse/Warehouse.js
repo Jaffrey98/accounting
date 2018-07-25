@@ -19,14 +19,14 @@ module.exports = {
 					isGroup: 1
 				}
 			}
-            
+
         },
         {
             fieldname: "isGroup",
             label: "Is Group",
             fieldtype: "Check"
         },
-        
+
 	],
 	keywordFields: ["name", "parentWarehouse"],
 	isSingle: 0,
@@ -52,7 +52,7 @@ module.exports = {
 						<div class="col-3">${data.name} </div>
 						<div class="col-3">type = group</div>
 						<div class="col-5">hasParent ➤ ${data.parentWarehouse}</div>
-					</div>	
+					</div>
 				`;
 			}else if(data.isGroup) {
 				details = `

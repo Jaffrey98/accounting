@@ -21,7 +21,16 @@ export default {
       title: _('Masters'),
       items: [
         {
+          label: _('Uom'), route: '#/list/Uom'
+        },
+        {
           label: _('Item'), route: '#/list/Item'
+        },
+        {
+          label: _('Warehouse'), route: '#/list/Warehouse'
+        },
+        {
+          label: _('StockEntry'), route: '#/list/StockEntry'
         },
         {
           label: _('Party'), route: '#/list/Party'
@@ -42,6 +51,9 @@ export default {
       items: [
         {
           label: _('General Ledger'), route: '#/report/general-ledger'
+        },
+        {
+          label: _('Stock Ledger'), route: '#/report/stock-ledger'
         }
       ]
     }
