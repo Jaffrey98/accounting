@@ -34,7 +34,23 @@ export default {
         },
         {
           label: _('Account'), route: '#/list/Account'
+        },
+        {
+          label: _('Warehouse'), route: '#/list/Warehouse'
+        },
+        {
+          label: _('UoM'), route: '#/list/Uom'
+        },
+        {
+          label: _('Sales'), route: '#/list/SalesOrder'
+        },
+        {
+          label: _('Purchase'), route: '#/list/PurchaseOrder'
+        },
+        {
+          label: _('Quotation'), route: '#/list/Quotation'
         }
+        
       ]
     },
     {
