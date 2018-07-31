@@ -59,6 +59,6 @@ module.exports = {
         Warehouse: require('./doctype/Warehouse/Warehouse.js'),
         
     	StockEntry: require('./doctype/StockEntry/StockEntry.js'),
-    	StockEntryItemTable: require('./doctype/StockEntry/StockEntryItemTable.js'),
+    	StockEntryItem: require('./doctype/StockEntry/StockEntryItem.js'),
     }
 }

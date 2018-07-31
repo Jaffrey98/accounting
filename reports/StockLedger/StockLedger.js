@@ -7,8 +7,10 @@ class StockLedger {
         if (params.toDate) filters.date = ['<=', params.toDate];
 
         let data = await frappe.db.getAll({
-            doctype: 'StockEntry',
-            fields: ['date', 'sourceWarehouse', 'targetWarehouse'],
+            doctype: 'StockEntryItem',
+            fields: ['sourceWarehouse', 'targetWarehouse', 'itemName', 'quantity'],
+            fields: ["*"],
+            orderBy: 'idx',
             // filters: filters
         });
 

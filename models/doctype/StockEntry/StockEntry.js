@@ -15,34 +15,10 @@ module.exports = {
             required: 1
         },
         {
-            fieldname: "sourceWarehouse",
-            label: "Source Warehouse",
-            fieldtype: "Link",
-            target: "Warehouse",
-            // getFilters: (query, control) => {
-            //     return {
-            //         keywords: ["like", query],
-            //         name: ["!=", control.doc.targetWarehouse]
-            //     }
-            // }
-        },
-        {
-            fieldname: "targetWarehouse",
-            label: "Target Warehouse",
-            fieldtype: "Link",
-            target: "Warehouse",
-            getFilters: (query, control) => {
-                return {
-                    keywords: ["like", query],
-                    name: ["!=", control.doc.sourceWarehouse]
-                }
-            }
-        },
-        {
-            fieldname: "itemStockEntry",
-            label: "Items",
+            fieldname: "items",
+            label: "Entries",
             fieldtype: "Table",
-            childtype: "StockEntryItemTable"
+            childtype: "StockEntryItem"
         }
     ],
     events: {
@@ -65,6 +41,6 @@ module.exports = {
             return `<div class="col-11">${data.date} (${data.sourceWarehouse} ➤ ${data.targetWarehouse})</div>`;
         }
     },
-     
+
 
 }
