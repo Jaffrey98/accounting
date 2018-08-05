@@ -22,17 +22,17 @@ module.exports = {
     ],
     getColumns() {
         return [
-            // {
-            //     label: 'Date',
-            //     fieldname: 'date'
-            // },
             {
-                label: 'Source',
-                fieldname: 'sourceWarehouse'
+                label: 'Stock Entry ID',
+                fieldname: 'name'
             },
             {
-                label: 'Target',
-                fieldname: 'targetWarehouse'
+                label: 'Date',
+                fieldname: 'date'
+            },
+            {
+                label: 'Warehouse',
+                fieldname: 'wName'
             },
             {
                 label: 'Item',

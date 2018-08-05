@@ -15,7 +15,8 @@ module.exports = {
             //         name: ["!=", control.doc.targetWarehouse]
             //     }
             // }
-        }, {
+        },
+        {
             fieldname: "targetWarehouse",
             label: "Target Warehouse",
             fieldtype: "Link",
