@@ -49,6 +49,12 @@ export default {
         },
         {
           label: _('Quotation'), route: '#/list/Quotation'
+        },
+        {
+          label: _('SalesOrder'), route: '#/list/salesOrderSettings'
+        },
+        {
+          label: _('Accounting Ledger'), route: '#/list/AccountingLedgerEntry'
         }
         
       ]
