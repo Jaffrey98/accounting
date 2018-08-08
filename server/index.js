@@ -37,7 +37,8 @@ module.exports = {
         await naming.createNumberSeries('OF-', 'FulfillmentSettings');
         await naming.createNumberSeries('PO-', 'PurchaseOrderSettings');
         await naming.createNumberSeries('PREC-', 'PurchaseReceiptSettings');
-
+        await naming.createNumberSeries('SE-', 'StockEntrySettings');
+        
         registerReportMethods();
     }
 }

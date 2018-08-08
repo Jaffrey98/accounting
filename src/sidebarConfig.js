@@ -30,7 +30,7 @@ export default {
           label: _('Warehouse'), route: '#/list/Warehouse'
         },
         {
-          label: _('StockEntry'), route: '#/list/StockEntry'
+          label: _('Stock Entry'), route: '#/list/StockEntry'
         },
         {
           label: _('Party'), route: '#/list/Party'

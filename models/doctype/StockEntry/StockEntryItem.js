@@ -2,6 +2,7 @@ module.exports = {
     name: "StockEntryItem",
     doctype: "DocType",
     isChild: 1,
+    documentClass: require("./StockEntryDocument.js"),
     naming: "autoincrement",
     fields: [
         {
