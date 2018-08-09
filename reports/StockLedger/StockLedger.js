@@ -8,7 +8,58 @@ class StockLedger {
         if (params.fromDate) filters.date = ['>=', params.fromDate];
         if (params.toDate) filters.date = ['<=', params.toDate];
 
-        function setEntryData(wh, whType, meta, item){
+        function computeBalance(additions, deletions) {
+            let balance = 0;
+
+            let add = additions.map(function(item){
+                balance += item.quantity;
+                console.log(balance);
+            })
+
+            let del = deletions.map(function(item){
+                balance -= item.quantity;
+                console.log(balance);
+            })
+
+            Promise.all([...add,...del]).then( function(t){
+                return balance;
+            })
+        }
+
+        async function getBalance(whName, itemName) {
+            let additions = frappe.db.getAll({
+                doctype: 'StockEntryItem',
+                fields: ['quantity'],
+                orderBy: 'idx',
+                order: 'desc',
+                filters: {
+                    targetWarehouse: whName,
+                    itemName: itemName
+                }
+            });
+            additions.then(function (add){
+                let deletions = frappe.db.getAll({
+                    doctype: 'StockEntryItem',
+                    fields: ['quantity'],
+                    orderBy: 'idx',
+                    order: 'desc',
+                    filters: {
+                        sourceWarehouse: whName,
+                        itemName: itemName
+                    }
+                });
+                deletions.then(async function(del){
+                    console.log(`w: ${whName}, a:`);
+                    console.log(add);
+                    console.log(`w: ${whName}, d:`);
+                    console.log(del);
+                    return computeBalance(add,del);
+                });
+            });
+        }
+
+        async function setEntryData(wh, whType, meta, item){
+            let balance;
             wh.name = meta.name;
             wh.date = meta.date;
             wh.itemName = item.itemName;
@@ -16,19 +67,36 @@ class StockLedger {
                 case 'src':
                     wh.wName = item.sourceWarehouse;
                     wh.quantity = `- ${item.quantity}`;
+                    wh.balance = await getBalance(item.sourceWarehouse,item.itemName);
+                    // balance.then(function(bal){
+                    //     console.log('bal');
+                    //     console.log(bal);
+                    //     wh.balance = `${bal}`;
+                    // })
+                    console.log(wh.wName);
+                    console.log(wh.balance);
                     break;
-                    case 'targ':
+                case 'targ':
                     wh.wName = item.targetWarehouse;
                     wh.quantity = `+ ${item.quantity}`;
+                    wh.balance = await getBalance(item.targetWarehouse, item.itemName);
+                    // balance.then(function (bal) {
+                    //     console.log('bal');
+                    //     console.log(bal);
+                    //     wh.balance = `${bal}`;
+                    // })
+                    console.log(wh.wName);
+                    console.log(wh.balance);
                     break;
             }
             console.log(wh);
         }
 
-        function populateData(meta, item, choice) {
+        async function populateData(meta, item, choice) {
             let dataItem = [];
             let src = {};
             let targ = {};
+            let request;
             switch (choice) {
                 case (0):
                     setEntryData(src, 'src', meta, item);
@@ -42,7 +110,7 @@ class StockLedger {
                 case (2):
                     setEntryData(targ, 'targ', meta, item);
                     dataItem.push(targ);
-                    break;            
+                    break;
                 default:
                     break;
             }
@@ -59,7 +127,7 @@ class StockLedger {
                     } else {
                         data.push(...populateData(stockEntry.meta, item, 2))
                     }
-                })                
+                })
             })
             console.log(data);
         }
@@ -74,9 +142,9 @@ class StockLedger {
                     order: 'desc',
                     filters: { parent : stockEntry.name }
                 });
-                return { 
+                return {
                     meta : stockEntry,
-                    items : stockEntryItems 
+                    items : stockEntryItems
                 }
             })
             await Promise.all(stockEntryRawData).then(function (stockEntryData) {
@@ -94,7 +162,7 @@ class StockLedger {
 
             let stockEntryRawData = await getStockEntryItems(stockEntries);
 
-            // return organizeEntries(stockEntryRawData); 
+            // return organizeEntries(stockEntryRawData);
         }
 
         async function getData(params){

@@ -41,6 +41,10 @@ module.exports = {
             {
                 label: 'Quantity',
                 fieldname: 'quantity'
+            },
+            {
+                label: 'Balance Quantity',
+                fieldname: 'balance'
             }
         ];
     }
