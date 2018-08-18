@@ -3,6 +3,7 @@ module.exports = {
     label: "Stock Entry",
     doctype: "DocType",
     settings: 'StockEntrySettings',
+    documentClass: require("./StockEntryDocument.js"),
     pageSettings: {
         hideTitle: true
     },

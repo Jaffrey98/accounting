@@ -1,65 +1,13 @@
 const frappe = require('frappejs');
+const Balance = require('./Balance');
+const balance = new Balance();
 
 class StockLedger {
     async run(params) {
-        let data = [];
-
         const filters = {};
-        if (params.fromDate) filters.date = ['>=', params.fromDate];
-        if (params.toDate) filters.date = ['<=', params.toDate];
-
-        function computeBalance(additions, deletions) {
-            let balance = 0;
-
-            let add = additions.map(function(item){
-                balance += item.quantity;
-                console.log(balance);
-            })
-
-            let del = deletions.map(function(item){
-                balance -= item.quantity;
-                console.log(balance);
-            })
-
-            Promise.all([...add,...del]).then( function(t){
-                return balance;
-            })
-        }
-
-        async function getBalance(whName, itemName) {
-            let additions = frappe.db.getAll({
-                doctype: 'StockEntryItem',
-                fields: ['quantity'],
-                orderBy: 'idx',
-                order: 'desc',
-                filters: {
-                    targetWarehouse: whName,
-                    itemName: itemName
-                }
-            });
-            additions.then(function (add){
-                let deletions = frappe.db.getAll({
-                    doctype: 'StockEntryItem',
-                    fields: ['quantity'],
-                    orderBy: 'idx',
-                    order: 'desc',
-                    filters: {
-                        sourceWarehouse: whName,
-                        itemName: itemName
-                    }
-                });
-                deletions.then(async function(del){
-                    console.log(`w: ${whName}, a:`);
-                    console.log(add);
-                    console.log(`w: ${whName}, d:`);
-                    console.log(del);
-                    return computeBalance(add,del);
-                });
-            });
-        }
-
-        async function setEntryData(wh, whType, meta, item){
-            let balance;
+        
+        async function setEntryData(whType, meta, item) {
+            let wh = {};
             wh.name = meta.name;
             wh.date = meta.date;
             wh.itemName = item.itemName;
@@ -67,48 +15,35 @@ class StockLedger {
                 case 'src':
                     wh.wName = item.sourceWarehouse;
                     wh.quantity = `- ${item.quantity}`;
-                    wh.balance = await getBalance(item.sourceWarehouse,item.itemName);
-                    // balance.then(function(bal){
-                    //     console.log('bal');
-                    //     console.log(bal);
-                    //     wh.balance = `${bal}`;
-                    // })
-                    console.log(wh.wName);
-                    console.log(wh.balance);
+                    wh.balance = await balance.getBalance(item.sourceWarehouse, item.itemName, item.parent);
+                    wh.balance = `${wh.balance}`;
                     break;
                 case 'targ':
                     wh.wName = item.targetWarehouse;
                     wh.quantity = `+ ${item.quantity}`;
-                    wh.balance = await getBalance(item.targetWarehouse, item.itemName);
-                    // balance.then(function (bal) {
-                    //     console.log('bal');
-                    //     console.log(bal);
-                    //     wh.balance = `${bal}`;
-                    // })
-                    console.log(wh.wName);
-                    console.log(wh.balance);
+                    wh.balance = await balance.getBalance(item.targetWarehouse, item.itemName, item.parent);
+                    wh.balance = `${wh.balance}`;
                     break;
             }
-            console.log(wh);
+            return wh;
         }
 
         async function populateData(meta, item, choice) {
             let dataItem = [];
             let src = {};
             let targ = {};
-            let request;
             switch (choice) {
                 case (0):
-                    setEntryData(src, 'src', meta, item);
-                    setEntryData(targ, 'targ', meta, item);
-                    dataItem.push(src,targ);
+                    src = await setEntryData('src', meta, item);
+                    targ = await setEntryData('targ', meta, item);
+                    dataItem.push(src, targ);
                     break;
                 case (1):
-                    setEntryData(src, 'src', meta, item);
+                    src = await setEntryData('src', meta, item);
                     dataItem.push(src);
                     break;
                 case (2):
-                    setEntryData(targ, 'targ', meta, item);
+                    targ = await setEntryData('targ', meta, item);
                     dataItem.push(targ);
                     break;
                 default:
@@ -118,39 +53,45 @@ class StockLedger {
         }
 
         async function organizeEntries(stockEntryData) {
-            await stockEntryData.map(async function(stockEntry){
-                await stockEntry.items.map((item)=>{
-                    if(item.sourceWarehouse && item.targetWarehouse) {
-                        data.push(...populateData(stockEntry.meta, item, 0))
-                    } else if (item.sourceWarehouse){
-                        data.push(...populateData(stockEntry.meta, item, 1))
+            let data = [];
+            console.log(stockEntryData);
+            await Promise.all(await stockEntryData.map(async function (stockEntry) {
+                await Promise.all(await stockEntry.items.map(async function (item) {
+                    let d;
+                    if (item.sourceWarehouse && item.targetWarehouse) {
+                        d = await populateData(stockEntry.meta, item, 0);
+                        data.push(...d);
+                    } else if (item.sourceWarehouse) {
+                        d = await populateData(stockEntry.meta, item, 1);
+                        data.push(...d);
                     } else {
-                        data.push(...populateData(stockEntry.meta, item, 2))
+                        d = await populateData(stockEntry.meta, item, 2);
+                        data.push(...d);
                     }
-                })
-            })
-            console.log(data);
+                }));
+            }));
+            return data;
         }
 
         async function getStockEntryItems(stockEntries) {
-            console.log(stockEntries)
-            let stockEntryRawData = await stockEntries.map(async function(stockEntry) {
+            let stockEntryRawData = await stockEntries.map(async function (stockEntry) {
                 let stockEntryItems = await frappe.db.getAll({
                     doctype: 'StockEntryItem',
-                    fields: ['sourceWarehouse', 'targetWarehouse', 'itemName', 'quantity'],
-                    orderBy: 'idx',
+                    fields: ['parent', 'sourceWarehouse', 'targetWarehouse', 'itemName', 'quantity'],
+                    orderBy: 'parent',
                     order: 'desc',
-                    filters: { parent : stockEntry.name }
+                    filters: {
+                        parent: stockEntry.name
+                    }
                 });
                 return {
-                    meta : stockEntry,
-                    items : stockEntryItems
+                    meta: stockEntry,
+                    items: stockEntryItems
                 }
-            })
-            await Promise.all(stockEntryRawData).then(function (stockEntryData) {
-                console.log(stockEntryData);
-                organizeEntries(stockEntryData);
-            })
+            });
+            return await Promise.all(stockEntryRawData).then(async function (stockEntryData) {
+                return await organizeEntries(stockEntryData);
+            });
         }
 
         async function getStockEntries(params) {
@@ -160,17 +101,11 @@ class StockLedger {
                 // filters: filters
             });
 
-            let stockEntryRawData = await getStockEntryItems(stockEntries);
-
-            // return organizeEntries(stockEntryRawData);
+            return await getStockEntryItems(stockEntries);
         }
 
-        async function getData(params){
-            return getStockEntries(params);
-        }
-
-        await getData(params);
-        return(data);
+        let data = await getStockEntries(params);
+        return data;
     }
 }
 

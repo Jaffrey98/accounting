@@ -6,7 +6,7 @@ const TrialBalance = require('./TrialBalance/TrialBalance');
 const SalesRegister = require('./SalesRegister/SalesRegister');
 const PurchaseRegister = require('./PurchaseRegister/PurchaseRegister');
 const AccountsReceivablePayable = require('./AccountsReceivablePayable/AccountsReceivablePayable');
-const StockLedger = require('./StockLedger/__StockLedger');
+const StockLedger = require('./StockLedger/StockLedger');
 
 // called on server side
 function registerReportMethods() {

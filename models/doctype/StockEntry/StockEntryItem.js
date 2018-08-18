@@ -2,7 +2,6 @@ module.exports = {
     name: "StockEntryItem",
     doctype: "DocType",
     isChild: 1,
-    documentClass: require("./StockEntryDocument.js"),
     naming: "autoincrement",
     fields: [
         {
@@ -10,24 +9,12 @@ module.exports = {
             label: "Source Warehouse",
             fieldtype: "Link",
             target: "Warehouse",
-            // getFilters: (query, control) => {
-            //     return {
-            //         keywords: ["like", query],
-            //         name: ["!=", control.doc.targetWarehouse]
-            //     }
-            // }
         },
         {
             fieldname: "targetWarehouse",
             label: "Target Warehouse",
             fieldtype: "Link",
             target: "Warehouse",
-            // getFilters: (query, control) => {
-            //     return {
-            //         keywords: ["like", query],
-            //         name: ["!=", control.doc.sourceWarehouse]
-            //     }
-            // }
         },
         {
             fieldname: "itemName",
@@ -40,5 +27,5 @@ module.exports = {
             label: "Quantity",
             fieldtype: "Int"
         }
-    ],
+    ]
 }
