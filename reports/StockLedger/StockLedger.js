@@ -4,8 +4,21 @@ const balance = new Balance();
 
 class StockLedger {
     async run(params) {
-        const filters = {};
-        
+
+        let filters = {};
+        filters.parent = {};
+        filters.child = {};
+
+        if (params.toDate || params.fromDate) {
+            filters.parent.date = [];
+            if (params.toDate) filters.parent.date.push('<=', params.toDate);
+            if (params.fromDate) filters.parent.date.push('>=', params.fromDate);
+        }
+        if (params.itemName)
+            filters.child.itemName = params.itemName;
+        if (params.wName)
+            filters.wName = params.wName;
+
         async function setEntryData(whType, meta, item) {
             let wh = {};
             wh.name = meta.name;
@@ -55,8 +68,9 @@ class StockLedger {
         async function organizeEntries(stockEntryData) {
             let data = [];
             console.log(stockEntryData);
-            await Promise.all(await stockEntryData.map(async function (stockEntry) {
-                await Promise.all(await stockEntry.items.map(async function (item) {
+            await Promise.all(stockEntryData.map(async function (stockEntry) {
+                await Promise.all(stockEntry.items.map(async function (item) {
+                    console.log(item);
                     let d;
                     if (item.sourceWarehouse && item.targetWarehouse) {
                         d = await populateData(stockEntry.meta, item, 0);
@@ -69,20 +83,26 @@ class StockLedger {
                         data.push(...d);
                     }
                 }));
+                console.log(data);
             }));
-            return data;
+            console.log(data);
+            if (filters.wName)
+                data = data.filter((item) => (item.wName == filters.wName));
+            return data.sort((x,y)=>y.name.localeCompare(x.name));
         }
 
-        async function getStockEntryItems(stockEntries) {
+        async function getStockEntryItems(stockEntries, filters) {
             let stockEntryRawData = await stockEntries.map(async function (stockEntry) {
+                var itemfilters = Object.assign(
+                    {parent: stockEntry.name},
+                    filters.child
+                );
                 let stockEntryItems = await frappe.db.getAll({
                     doctype: 'StockEntryItem',
                     fields: ['parent', 'sourceWarehouse', 'targetWarehouse', 'itemName', 'quantity'],
                     orderBy: 'parent',
                     order: 'desc',
-                    filters: {
-                        parent: stockEntry.name
-                    }
+                    filters: itemfilters
                 });
                 return {
                     meta: stockEntry,
@@ -90,21 +110,21 @@ class StockLedger {
                 }
             });
             return await Promise.all(stockEntryRawData).then(async function (stockEntryData) {
-                return await organizeEntries(stockEntryData);
+                return await organizeEntries(stockEntryData, filters);
             });
         }
 
-        async function getStockEntries(params) {
+        async function getStockEntries(filters) {
             let stockEntries = await frappe.db.getAll({
                 doctype: 'StockEntry',
                 fields: ["*"],
-                // filters: filters
+                filters: filters.parent
             });
 
-            return await getStockEntryItems(stockEntries);
+            return await getStockEntryItems(stockEntries, filters);
         }
 
-        let data = await getStockEntries(params);
+        let data = await getStockEntries(filters);
         return data;
     }
 }

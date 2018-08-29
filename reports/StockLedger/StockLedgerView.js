@@ -3,12 +3,6 @@ module.exports = {
     title: title,
     method: 'stock-ledger',
     filterFields: [
-        // {
-        //     fieldtype: 'Select',
-        //     options: ['', 'Invoice', 'Payment'],
-        //     label: 'Reference Type',
-        //     fieldname: 'referenceType'
-        // },
         {
             fieldtype: 'Date',
             label: 'From Date',
@@ -18,6 +12,18 @@ module.exports = {
             fieldtype: 'Date',
             label: 'To Date',
             fieldname: 'toDate'
+        },
+        {
+            fieldtype: 'Link',
+            target: 'Item',
+            label: 'Item',
+            fieldname: 'itemName'
+        },
+        {
+            fieldtype: 'Link',
+            target: 'Warehouse',
+            label: 'Warehouse',
+            fieldname: 'wName'
         }
     ],
     getColumns() {

@@ -1,4 +1,6 @@
-module.exports = class Balance{
+const frappe = require('frappejs');
+
+module.exports = class Balance {
     computeBalance(additions, deletions) {
         let add = 0;
         let del = 0;

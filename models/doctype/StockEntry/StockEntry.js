@@ -21,16 +21,6 @@ module.exports = {
             childtype: "StockEntryItem"
         }
     ],
-    events: {
-        // validate: (doc) => {
-            // console.log(doc);
-            // console.log(this.sourceWarehouse);
-            // if (this.sourceWarehouse === this.targetWarehouse){
-            //     throw frappe.errors.ValidationError(frappe._("Source and target warehouse cannot be the same))"));
-            // }
-            // throw frappe.errors.ValidationError(frappe._("Enter a source or a target Warehouse (or both(if they exist))"));
-        // }
-    },
     keywordFields: [],
     isSingle: 0,
     listSettings: {
