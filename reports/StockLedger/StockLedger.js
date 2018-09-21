@@ -49,7 +49,7 @@ class StockLedger {
                 case (0):
                     src = await setEntryData('src', meta, item);
                     targ = await setEntryData('targ', meta, item);
-                    dataItem.push(src, targ);
+                    dataItem.push(targ, src);
                     break;
                 case (1):
                     src = await setEntryData('src', meta, item);
