@@ -36,6 +36,12 @@ export default {
           label: _('Party'), route: '#/list/Party'
         },
         {
+          label: _('SalesOrder'), route: '#/list/SalesOrder'
+        },
+        {
+          label: _('Fulfillment'), route: '#/list/Fulfillment'
+        },
+        {
           label: _('Invoice'), route: '#/list/Invoice'
         },
         {
