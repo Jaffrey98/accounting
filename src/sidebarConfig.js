@@ -60,6 +60,9 @@ export default {
         },
         {
           label: _('Stock Ledger'), route: '#/report/stock-ledger'
+        },
+        {
+          label: _('Sales Ledger'), route: '#/report/sales-ledger'
         }
       ]
     }

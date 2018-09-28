@@ -8,6 +8,7 @@ const PurchaseRegisterView = require('./PurchaseRegister/PurchaseRegisterView');
 const AccountsReceivableView = require('./AccountsReceivablePayable/AccountsReceivableView');
 const AccountsPayableView = require('./AccountsReceivablePayable/AccountsPayableView');
 const StockLedgerView = require('../reports/StockLedger/StockLedgerView');
+const SalesLedgerView = require('../reports/SalesLedger/SalesLedgerView');
 
 // called on client side
 function registerReportRoutes() {
@@ -72,5 +73,12 @@ function registerReportRoutes() {
             frappe.views.StockLedger = new StockLedgerView();
         }
         await frappe.views.StockLedger.show(params);
+    });
+
+    frappe.router.add('report/sales-ledger', async (params) => {
+        if (!frappe.views.SalesLedger) {
+            frappe.views.SalesLedger = new SalesLedgerView();
+        }
+        await frappe.views.SalesLedger.show(params);
     });
 }
