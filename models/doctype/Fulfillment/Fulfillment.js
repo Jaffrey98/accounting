@@ -69,11 +69,11 @@ module.exports = {
         //     formula: (doc) => doc.getGrandTotal(),
         //     disabled: true
         // },
-        // {
-        //     fieldname: 'terms',
-        //     label: 'Terms',
-        //     fieldtype: 'Text'
-        // }
+        {
+            fieldname: 'terms',
+            label: 'Terms',
+            fieldtype: 'Text'
+        }
     ],
 
     layout: [
@@ -102,7 +102,7 @@ module.exports = {
         //     }]
         // },
 
-        // section 4
+        //section 4
         {
             columns: [{
                 fields: ['terms']

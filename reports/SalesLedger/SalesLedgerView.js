@@ -29,7 +29,8 @@ module.exports = {
             fieldtype: "Select",
             label: 'Status',
             options: [
-                "Unbegun",
+                "Any",
+                "Uncommenced",
                 "Pending",
                 "Completed"
             ],
@@ -40,11 +41,15 @@ module.exports = {
         return [
             {
                 label: 'Sales Order ID',
-                fieldname: 'name'
+                fieldname: 'salesOrderID'
             },
             {
                 label: 'Date',
                 fieldname: 'date'
+            },
+            {
+                label: 'Status',
+                fieldname: 'status'
             },
             {
                 label: 'Customer',
@@ -64,11 +69,7 @@ module.exports = {
             },
             {
                 label: 'Items Remaining',
-                fieldname: 'quantity'
-            },
-            {
-                label: 'Status',
-                fieldname: 'status'
+                fieldname: 'noItemsRemaining'
             },
         ];
     }
