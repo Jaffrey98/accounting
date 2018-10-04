@@ -17,34 +17,22 @@ class SalesLedger {
             filters.customer = params.customer;
         }
 
-        function checkExistance(key, value, array, reqValue) {
+        function checkExistance(key, value, array) {
             console.log(array);
             let arrayItem;
             for(arrayItem of array) {
                 // console.log('in for each arrayItem');
+                // console.log(arrayItem);
                 if (arrayItem[key] == value) {
                     // console.log('in for each arrayItem condition true');
                     // console.log(arrayItem[key]);
-                    // console.log(arrayItem[reqValue]);
-                    if(reqValue)
-                        return [arrayItem[reqValue], true];
-                    else
-                        return ["", true];
+                    return true;
                 }
             };
-            return ["", false];
+            return false;
         }
 
         async function getFulfillmentEntries(salesEntriesItems) {
-            let fulfillmentItems = await frappe.db.getAll({
-                doctype: 'Fulfillment',
-                fields: ['*'],
-            });
-            let fulfillmentItemsFiltered = fulfillmentItems.filter(function (fI) {
-                // console.log(fI,salesEntriesItems);
-                // console.log(checkExistance("salesOrderID", fI.salesOrder, salesEntriesItems)[1]);
-                return (checkExistance("salesOrderID", fI.salesOrder, salesEntriesItems)[1]);
-            });
             let fulfillmentEntriesItemsDetails = await frappe.db.getAll({
                 doctype: 'FulfillmentItem',
                 fields: ['*'],
@@ -52,10 +40,11 @@ class SalesLedger {
                 order: 'asc',
             });
             return fulfillmentEntriesItemsDetails.filter(function (fI) {
-                // console.log(fI);
-                let [salesOrderID, condition] = checkExistance("name", fI.parent, fulfillmentItemsFiltered, "salesOrder");
-                fI.salesOrderID = salesOrderID;
-                // console.log(fI);
+                console.log(fI);
+                let condition = checkExistance("salesOrderID", fI.salesOrder, salesEntriesItems);
+                fI.salesOrderID = fI.salesOrder;
+                console.log(fI);
+                console.log(condition);
                 return condition;
             });
         }
@@ -79,7 +68,8 @@ class SalesLedger {
         async function populateSalesEntries(...salesData) {
             let [salesEntriesItems, salesEntriesItemsDetails] = salesData;
             let fulfillmentEntriesItemsDetails = await getFulfillmentEntries(salesEntriesItems);
-            return salesEntriesItems = salesEntriesItems.map(function (salesEntriesItem) {
+            console.log(fulfillmentEntriesItemsDetails);
+            return salesEntriesItems.map(function (salesEntriesItem) {
                 let salesEntryItems = salesEntriesItemsDetails.filter(function(sI){
                     return (sI.parent == salesEntriesItem.salesOrderID);
                 });
@@ -95,6 +85,7 @@ class SalesLedger {
                 salesEntriesItem.deliveredPercent = Math.round((salesEntriesItem.noItemsDelivered * 100) / salesEntriesItem.noItemsOrdered);
                 salesEntriesItem.noItemsRemaining = salesEntriesItem.noItemsOrdered - salesEntriesItem.noItemsDelivered;
                 salesEntriesItem.status = getSalesOrderStatus(salesEntriesItem);
+                console.log(salesEntriesItem);
                 return salesEntriesItem;
             });
         }

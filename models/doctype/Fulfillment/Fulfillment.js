@@ -23,12 +23,6 @@ module.exports = {
             fieldtype: 'Date'
         },
         {
-            fieldname: 'salesOrder',
-            label: 'Sales Order',
-            fieldtype: 'Link',
-            target: 'SalesOrder',
-        },
-        {
             fieldname: 'items',
             label: 'Items',
             fieldtype: 'Table',
@@ -79,20 +73,16 @@ module.exports = {
     layout: [
         // section 1
         {
-            columns: [{
-                    fields: ['salesOrder']
-                },
-                {
-                    fields: ['date']
-                }
+            columns: [
+                { fields: ['date'] }
             ]
         },
 
         // section 2
         {
-            columns: [{
-                fields: ['items']
-            }]
+            columns: [
+                { fields: ['items'] }
+            ]
         },
 
         // section 3
@@ -104,9 +94,9 @@ module.exports = {
 
         //section 4
         {
-            columns: [{
-                fields: ['terms']
-            }]
+            columns: [
+                { fields: ['terms'] }
+            ]
         }
     ],
 
