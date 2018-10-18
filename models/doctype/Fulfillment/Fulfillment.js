@@ -6,7 +6,7 @@ module.exports = {
     name: "Fulfillment",
     label: "Fulfillment",
     doctype: 'DocType',
-    documentClass: require('../Invoice/InvoiceDocument.js'),
+    documentClass: require('./FulfillmentDocument.js'),
     print: {
         printFormat: 'Standard Invoice Format'
     },

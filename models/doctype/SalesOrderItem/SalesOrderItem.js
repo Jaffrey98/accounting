@@ -1,3 +1,4 @@
+const frappe = require('frappejs');
 module.exports = {
     name: 'SalesOrderItem',
     doctype: 'DocType',
@@ -5,20 +6,14 @@ module.exports = {
     isChild: 1,
     keywordFields: [],
     layout: 'ratio',
-    fields: [{
+    fields: [
+        {
             fieldname: 'item',
             label: 'Item',
             fieldtype: 'Link',
             target: 'Item',
             required: 1,
             width: 2
-        },
-        {
-            fieldname: 'description',
-            label: 'Description',
-            fieldtype: 'Text',
-            formula: (row, doc) => doc.getFrom('Item', row.item, 'description'),
-            hidden: 1
         },
         {
             fieldname: 'quantity',
@@ -31,25 +26,7 @@ module.exports = {
             label: 'Rate',
             fieldtype: 'Currency',
             required: 1,
-            formula: (row, doc) => doc.getFrom('Item', row.item, 'rate')
-        },
-        {
-            fieldname: 'account',
-            label: 'Account',
-            hidden: 1,
-            fieldtype: 'Link',
-            target: 'Account',
-            formula: (row, doc) => doc.getFrom('Item', row.item, 'incomeAccount')
-        },
-        {
-            fieldname: 'tax',
-            label: 'Tax',
-            fieldtype: 'Link',
-            target: 'Tax',
-            formula: (row, doc) => {
-                if (row.tax) return row.tax;
-                return doc.getFrom('Item', row.item, 'tax');
-            }
+            formula: async (row, doc) => await frappe.db.getValue('Item', row.item, 'rate')
         },
         {
             fieldname: 'amount',
@@ -59,11 +36,31 @@ module.exports = {
             formula: (row, doc) => row.quantity * row.rate
         },
         {
-            fieldname: 'taxAmount',
-            label: 'Tax Amount',
-            hidden: 1,
-            fieldtype: 'Text',
-            formula: (row, doc) => doc.getRowTax(row)
-        }
+            fieldname: 'itemsRemaining',
+            label: 'Items Remaining',
+            fieldtype: 'Float',
+            disabled: true,
+            formula: async (row, doc) => {
+                console.log("##########################doc");
+                console.log(doc);
+                console.log("##########################row");
+                console.log(row);
+                if(row.quantity){
+                    let fItems = await frappe.db.getAll({
+                        doctype: 'FulfillmentItem',
+                        fields: ['*'],
+                        orderBy: 'name',
+                        order: 'asc',
+                    });
+                    let delivered = 0;
+                    if(row.parent) {
+                        fItems = fItems.filter((i) => (i.salesOrder == row.parent))
+                        fItems = fItems.filter((i) => (i.item == row.item))
+                        delivered = fItems.reduce((acc, i) => acc + i.quantity, 0);
+                    }
+                    return (row.quantity - delivered);
+                }
+            }
+        },
     ]
 };

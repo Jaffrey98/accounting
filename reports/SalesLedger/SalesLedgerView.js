@@ -30,9 +30,9 @@ module.exports = {
             label: 'Status',
             options: [
                 "Any",
-                "Uncommenced",
-                "Pending",
-                "Completed"
+                "Not Delivered",
+                "Partially Delivered",
+                "Fully Delivered"
             ],
             fieldname: 'status'
         },

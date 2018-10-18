@@ -49,17 +49,17 @@ class SalesLedger {
             });
         }
 
-        function getSalesOrderStatus(salesEntriesItem) {
+        function getSalesOrderStatus(deliveredPercent) {
             let status;
-            switch (salesEntriesItem.deliveredPercent) {
+            switch (deliveredPercent) {
                 case 0:
-                    status = "Uncommenced";
+                    status = "Not Delivered";
                     break;
                 case 100:
-                    status = "Completed";
+                    status = "Fully Delivered";
                     break;
                 default:
-                    status = "Pending";
+                    status = "Partially Delivered";
                     break;
             }
             return status;
@@ -69,24 +69,24 @@ class SalesLedger {
             let [salesEntriesItems, salesEntriesItemsDetails] = salesData;
             let fulfillmentEntriesItemsDetails = await getFulfillmentEntries(salesEntriesItems);
             console.log(fulfillmentEntriesItemsDetails);
-            return salesEntriesItems.map(function (salesEntriesItem) {
-                let salesEntryItems = salesEntriesItemsDetails.filter(function(sI){
-                    return (sI.parent == salesEntriesItem.salesOrderID);
+            return salesEntriesItems.map(function (seI) {
+                let salesEntryItems = salesEntriesItemsDetails.filter(function(sI) {
+                    return (sI.parent == seI.salesOrderID);
                 });
-                let fulfillmentEntryItems= fulfillmentEntriesItemsDetails.filter(function(fI){
-                    return (fI.salesOrderID == salesEntriesItem.salesOrderID);
+                let fulfillmentEntryItems = fulfillmentEntriesItemsDetails.filter(function(fI) {
+                    return (fI.salesOrderID == seI.salesOrderID);
                 });
-                salesEntriesItem.noItemsOrdered = salesEntryItems.reduce(function (acc, sI) {
+                seI.noItemsOrdered = salesEntryItems.reduce(function (acc, sI) {
                     return (acc + sI.quantity);
                 }, 0);
-                salesEntriesItem.noItemsDelivered = fulfillmentEntryItems.reduce(function(acc, fI){
+                seI.noItemsDelivered = fulfillmentEntryItems.reduce(function(acc, fI) {
                     return (acc + fI.quantity);
                 }, 0);
-                salesEntriesItem.deliveredPercent = Math.round((salesEntriesItem.noItemsDelivered * 100) / salesEntriesItem.noItemsOrdered);
-                salesEntriesItem.noItemsRemaining = salesEntriesItem.noItemsOrdered - salesEntriesItem.noItemsDelivered;
-                salesEntriesItem.status = getSalesOrderStatus(salesEntriesItem);
-                console.log(salesEntriesItem);
-                return salesEntriesItem;
+                seI.deliveredPercent = `${Math.round((seI.noItemsDelivered * 100) / seI.noItemsOrdered)}%`;
+                seI.noItemsRemaining = seI.noItemsOrdered - seI.noItemsDelivered;
+                seI.status = getSalesOrderStatus(seI.deliveredPercent);
+                console.log(seI);
+                return seI;
             });
         }
 
@@ -119,8 +119,8 @@ class SalesLedger {
             });
             salesEntriesItems =  await getSalesOrderItems(salesEntriesItems, salesEntries);
             if(!(!(params.status) || params.status == "Any")) {
-                return salesEntriesItems.filter(function(salesEntriesItem){
-                    return (salesEntriesItem.status == params.status);
+                return salesEntriesItems.filter(function(seI) {
+                    return (seI.status == params.status);
                 });
             }
             return salesEntriesItems;

@@ -1,11 +1,12 @@
 const frappe = require('frappejs');
 const utils = require('../../../accounting/utils');
+const indicatorColor = require('frappejs/ui/constants/indicators');
 
 module.exports = {
     name: "SalesOrder",
     label: "Sales Order",
     doctype: 'DocType',
-    documentClass: require('../Invoice/InvoiceDocument.js'),
+    documentClass: require('./SalesOrderDocument.js'),
     print: {
         printFormat: 'Standard Invoice Format'
     },
@@ -15,6 +16,14 @@ module.exports = {
     keywordFields: ['name', 'customer'],
     settings: "SalesOrderSettings",
     showTitle: true,
+    indicators: {
+        key: 'status',
+        colors: {
+            "Not Delivered": indicatorColor.RED,
+            "Partially Delivered": indicatorColor.ORANGE,
+            "Fully Delivered": indicatorColor.GREEN
+        }
+    },
     fields: [{
             fieldname: 'date',
             label: 'Date',
@@ -75,6 +84,35 @@ module.exports = {
             disabled: true
         },
         {
+            fieldname: 'status',
+            label: 'Status',
+            fieldtype: 'Data',
+            disabled: true,
+            formula: (doc) => {
+                let status = "Not Delivered";
+                function checkFilled() {
+                    return doc.items.reduce((acc,i)=>{
+                        if(!i.quantity && !i.itemsRemaining)
+                            return acc + 1;
+                    }, 0);
+                }
+                if(!checkFilled()){
+                    let totalItems = doc.items.reduce((acc, i)=>acc+i.quantity,0)
+                    let remainingItems = doc.items.reduce((acc, i)=>acc+i.itemsRemaining,0)
+                    console.log("formula");
+                    console.log(totalItems);
+                    console.log(remainingItems);
+                    if (totalItems == remainingItems)
+                        status = "Not Delivered";
+                    else if(remainingItems == 0)
+                        status = "Fully Delivered";
+                    else
+                        status = "Partially Delivered";
+                }
+                return status;
+            }
+        },
+        {
             fieldname: 'terms',
             label: 'Terms',
             fieldtype: 'Text'
@@ -85,34 +123,38 @@ module.exports = {
         // section 1
         {
             columns: [
-                {
-                    fields: ['customer']
-                },
-                {
-                    fields: ['date']
-                }
+                { fields: ['customer'] },
+                { fields: ['date'] }
             ]
         },
 
         // section 2
         {
-            columns: [{
-                fields: ['items']
-            }]
+            columns: [
+                { fields: ['items'] }
+            ]
         },
 
         // section 3
         {
-            columns: [{
-                fields: ['netTotal', 'taxes', 'grandTotal']
-            }]
+            columns: [
+                { fields: ['netTotal'] },
+                { fields: ['grandTotal'] }
+            ]
         },
 
         // section 4
         {
-            columns: [{
-                fields: ['terms']
-            }]
+            columns: [
+                { fields: ['status'] }
+            ]
+        },
+
+        // section 4
+        {
+            columns: [
+                { fields: ['terms'] }
+            ]
         }
     ],
 
