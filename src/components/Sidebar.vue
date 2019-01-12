@@ -45,6 +45,10 @@ export default {
           route: '/list/Invoice'
         },
         {
+          label: 'Bills',
+          route: '/list/Bill'
+        },
+        {
           label: 'Reports',
           route: '/reportList'
         },

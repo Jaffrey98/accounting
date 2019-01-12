@@ -6,6 +6,7 @@ import FormView from '../pages/FormView/FormView';
 import PrintView from '../pages/PrintView';
 
 import Report from '../pages/Report';
+import Gstr3B from '../pages/Report/Gstr3B';
 import reportViewConfig from '../../reports/view';
 
 import DataImport from '../pages/DataImport';
@@ -36,6 +37,12 @@ const routes = [
     path: '/print/:doctype/:name',
     name: 'PrintView',
     component: PrintView,
+    props: true
+  },
+  {
+    path: '/gstr-3b',
+    name: 'GSTR-3B',
+    component: Gstr3B,
     props: true
   },
   {

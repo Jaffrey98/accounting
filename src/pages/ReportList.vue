@@ -35,9 +35,15 @@
         />
         <clickable-card  v-if="country === 'India'"
           class="mt-2"
-          title="Goods and Service Tax"
+          title="GSTR-1"
           description="See your goods and services tax here."
           @click="routeTo('gst-taxes',{'toDate' : (new Date()).toISOString()})"
+        />
+        <clickable-card  v-if="country === 'India'"
+          class="mt-2"
+          title="GSTR-3B"
+          description="See your goods and services tax here."
+          @click="$router.push('/gstr-3b')"
         />
       </div>
     </div>
@@ -62,7 +68,6 @@ export default {
   async created() {
     const doc = await frappe.getDoc('AccountingSettings');
     this.country = doc.country;
-
   },
   methods: {
     routeTo(route, filters) {
