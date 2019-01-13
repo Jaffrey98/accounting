@@ -33,6 +33,10 @@ export default {
           route: '/chartOfAccounts'
         },
         {
+          label: 'Tax',
+          route: '/list/Tax'
+        },
+        {
           label: 'Customers',
           route: '/list/Customer'
         },
