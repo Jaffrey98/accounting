@@ -1,6 +1,6 @@
 const frappe = require('frappejs');
 
-class GoodsAndServiceTax {
+class GSTR1 {
   async run(params) {
     let filters = {};
     if (params.toDate || params.fromDate) {
@@ -56,4 +56,4 @@ class GoodsAndServiceTax {
   
 }
 
-module.exports = GoodsAndServiceTax;
+module.exports = GSTR1;

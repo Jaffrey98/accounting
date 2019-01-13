@@ -1,4 +1,4 @@
-const title = 'Goods and Service Tax';
+const title = 'GSTR-1';
 module.exports = {
   title: title,
   method: 'gst-taxes',

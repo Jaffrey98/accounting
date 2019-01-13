@@ -4,5 +4,5 @@ module.exports = {
     'profit-and-loss': require('./ProfitAndLoss/viewConfig'),
     'trial-balance': require('./TrialBalance/viewConfig'),
     'bank-reconciliation': require('./BankReconciliation/viewConfig'),
-    'gst-taxes': require('./GoodsAndServiceTax/viewConfig'),
+    'gst-taxes': require('./GSTR1/viewConfig'),
 }

@@ -1,10 +1,10 @@
 const ReportPage = require('frappejs/client/desk/reportpage');
 const frappe = require('frappejs');
 
-module.exports = class GoodsAndServiceTaxView extends ReportPage {
+module.exports = class GSTR1View extends ReportPage {
   constructor() {
     super({
-      title: frappe._('Goods and Service Tax'),
+      title: frappe._('GSTR-1'),
       filterFields: [
         {
           fieldtype: 'Data',

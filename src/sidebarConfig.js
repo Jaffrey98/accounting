@@ -54,7 +54,7 @@ export default {
           label: _('Bank Reconciliation'), route: '#/report/bank-reconciliation'
         },
         {
-          label: _('Goods and Service Tax'), route: '#/report/gst-taxes'
+          label: _('GSTR-1'), route: '#/report/gst-taxes'
         }
       ]
     },
