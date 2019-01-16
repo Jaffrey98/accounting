@@ -31,6 +31,12 @@ module.exports = {
             }
         },
         {
+            fieldname: "billingCurrency",
+            label: "Billing Currency",
+            fieldtype: "Link",
+            target: "Currency"
+        },
+        {
             "fieldname": "customer",
             "label": "Customer",
             "fieldtype": "Check"

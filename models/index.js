@@ -6,6 +6,7 @@ module.exports = {
         CompanySettings: require('./doctype/CompanySettings/CompanySettings'),
         AccountingLedgerEntry: require('./doctype/AccountingLedgerEntry/AccountingLedgerEntry.js'),
         // Party: require('./doctype/Party/Party.js'),
+        Currency: require('./doctype/Currency/Currency.js'),
 
         Payment: require('./doctype/Payment/Payment.js'),
         PaymentFor: require('./doctype/PaymentFor/PaymentFor.js'),
